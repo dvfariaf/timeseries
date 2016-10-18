@@ -1,0 +1,94 @@
+---
+title: "Time Series Analysis"
+author: "David Faria"
+date: "18 octobre 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Taken from (https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/)
+
+## Importing data
+
+```{r}
+data("AirPassengers")
+
+class(AirPassengers)
+```
+
+This is the start of the time series
+
+```{r}
+start(AirPassengers)
+```
+
+This is the end of the time series
+
+```{r}
+end(AirPassengers)
+```
+
+The cycle of this time series is 12months in a year
+
+```{r}
+frequency(AirPassengers)
+```
+
+The number of passengers are distributed across the spectrum
+
+```{r}
+summary(AirPassengers)
+```
+
+
+```{r}
+plot(AirPassengers)
+abline(reg=lm(AirPassengers~time(AirPassengers)))
+```
+
+This will print the cycle across years.
+
+```{r}
+cycle(AirPassengers)
+```
+
+This will aggregate the cycles and display a year on year trend
+
+```{r}
+plot(aggregate(AirPassengers,FUN=mean))
+```
+
+Box plot across months will give us a sense on seasonal effect
+
+```{r}
+boxplot(AirPassengers~cycle(AirPassengers))
+```
+
+## Important Inferences
+
+* The year on year trend clearly shows that the #passengers have been increasing without fail.
+* The variance and the mean value in July and August is much higher than rest of the months.
+* Even though the mean value of each month is quite different their variance is small. Hence, we have strong seasonal effect with a cycle of 12 months or less.
+
+
+# ARMA Time Series Modeling
+
+* AR stands for auto-regression 
+* MA stands for moving average
+
+AR or MA are not applicable on non-stationary series.
+
+## AR
+
+$x(t) = alpha *  x(t - 1) + error (t)$
+
+This equation is known as AR(1) formulation. The numeral one (1) denotes that the next instance is solely dependent on the previous instance.  The alpha is a coefficient which we seek so as to minimize the error function. Notice that x(t- 1) is indeed linked to x(t-2) in the same fashion. Hence, any shock to x(t) will gradually fade off in future.
+
+## MA
+
+$x(t) = beta *  error(t-1) + error (t)$
+
+In MA model, noise / shock quickly vanishes with time. The AR model has a much lasting effect of the shock.
