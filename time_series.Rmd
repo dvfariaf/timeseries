@@ -92,3 +92,75 @@ This equation is known as AR(1) formulation. The numeral one (1) denotes that th
 $x(t) = beta *  error(t-1) + error (t)$
 
 In MA model, noise / shock quickly vanishes with time. The AR model has a much lasting effect of the shock.
+
+# Identifying AR/MA: Total Correlation Charts
+
+Also known as Auto - correlation Function / ACF, is a plot of total correlation between different lag functions
+
+* In a MA series of lag n, we will not get any correlation between x(t) and x(t - n -1). Hence, the total correlation chart cuts off at nth lag. So it becomes simple to find the lag for a MA series.
+
+* For an AR series this correlation will gradually go down without any cut off value. If we find out the partial correlation of each lag (PACF), it will cut off after the degree of AR series. For instance,if we have a AR(1) series,  if we exclude the effect of 1st lag (x (t-1) ), our 2nd lag (x (t-2) ) is independent of x(t). Hence, the partial correlation function (PACF) will drop sharply after the 1st lag.
+
+# Time series Framework
+
+1. Visualize the time series
+## 2. Stationarize the series
+
+### 1.  Detrending : 
+Here, we simply remove the trend component from the time series. For instance, the equation of my time series is:
+
+$x(t) = (mean + trend * t) + error$
+
+We'll simply remove the part in the parentheses and build model for the rest.
+
+### 2. Differencing : 
+This is the commonly used technique to remove non-stationarity. Here we try to model the differences of the terms and not the actual term. For instance,
+
+$x(t) - x(t-1) = ARMA (p ,  q)$
+
+This differencing is called as the Integration part in AR(I)MA. Now, we have three parameters
+
+$p : AR$
+
+$d : I$
+
+$q : MA$
+
+### 3. Seasonality : 
+Seasonality can easily be incorporated in the ARIMA model directly. More on this has been discussed in the applications part below.
+
+## 3. Plot ACF/PACF charts and fin optimal parameters
+
+The parameters p,d,q can be found using  ACF and PACF plots. 
+
+An addition to this approach is can be, if both ACF and PACF decreases gradually, it indicates that __we need to make the time series__ stationary and introduce a value to "d".
+
+## 4. Build the ARIMA model
+## 5. Make Predictions
+
+
+# Example with AirPassenger data
+
+We know that we need to address two issues before we test stationary series:
+
+1.  we need to remove unequal variances. We do this using log of the series.
+
+```{r}
+plot(log(AirPassengers))
+```
+
+2.  we need to address the trend component. We do this by taking difference of the series. Now, let's test the resultant series.
+
+```{r}
+plot(diff(log(AirPassengers)))
+
+```
+
+Then we run the Dickey-fuller test
+
+```{r}
+install.packages("tseries")
+library(tseries)
+adf.test(diff(log(AirPassengers)), alternative = "stationary", k = 0)
+```
+

@@ -176,6 +176,66 @@ abline(reg=lm(AirPassengers~time(AirPassengers)))</code></pre>
 <li>Even though the mean value of each month is quite different their variance is small. Hence, we have strong seasonal effect with a cycle of 12 months or less.</li>
 </ul>
 </div>
+<div id="arma-time-series-modeling" class="section level1">
+<h1>ARMA Time Series Modeling</h1>
+<ul>
+<li>AR stands for auto-regression</li>
+<li>MA stands for moving average</li>
+</ul>
+<p>AR or MA are not applicable on non-stationary series.</p>
+<div id="ar" class="section level2">
+<h2>AR</h2>
+<p><span class="math inline">\(x(t) = alpha * x(t - 1) + error (t)\)</span></p>
+<p>This equation is known as AR(1) formulation. The numeral one (1) denotes that the next instance is solely dependent on the previous instance. The alpha is a coefficient which we seek so as to minimize the error function. Notice that x(t- 1) is indeed linked to x(t-2) in the same fashion. Hence, any shock to x(t) will gradually fade off in future.</p>
+</div>
+<div id="ma" class="section level2">
+<h2>MA</h2>
+<p><span class="math inline">\(x(t) = beta * error(t-1) + error (t)\)</span></p>
+<p>In MA model, noise / shock quickly vanishes with time. The AR model has a much lasting effect of the shock.</p>
+</div>
+</div>
+<div id="identifying-arma-total-correlation-charts" class="section level1">
+<h1>Identifying AR/MA: Total Correlation Charts</h1>
+<p>Also known as Auto - correlation Function / ACF, is a plot of total correlation between different lag functions</p>
+<ul>
+<li><p>In a MA series of lag n, we will not get any correlation between x(t) and x(t - n -1). Hence, the total correlation chart cuts off at nth lag. So it becomes simple to find the lag for a MA series.</p></li>
+<li><p>For an AR series this correlation will gradually go down without any cut off value. If we find out the partial correlation of each lag (PACF), it will cut off after the degree of AR series. For instance,if we have a AR(1) series, if we exclude the effect of 1st lag (x (t-1) ), our 2nd lag (x (t-2) ) is independent of x(t). Hence, the partial correlation function (PACF) will drop sharply after the 1st lag.</p></li>
+</ul>
+</div>
+<div id="time-series-framework" class="section level1">
+<h1>Time series Framework</h1>
+<ol style="list-style-type: decimal">
+<li>Visualize the time series ## 2. Stationarize the series</li>
+</ol>
+<div id="detrending" class="section level3">
+<h3>1. Detrending :</h3>
+<p>Here, we simply remove the trend component from the time series. For instance, the equation of my time series is:</p>
+<p><span class="math inline">\(x(t) = (mean + trend * t) + error\)</span></p>
+<p>We’ll simply remove the part in the parentheses and build model for the rest.</p>
+</div>
+<div id="differencing" class="section level3">
+<h3>2. Differencing :</h3>
+<p>This is the commonly used technique to remove non-stationarity. Here we try to model the differences of the terms and not the actual term. For instance,</p>
+<p><span class="math inline">\(x(t) - x(t-1) = ARMA (p , q)\)</span></p>
+<p>This differencing is called as the Integration part in AR(I)MA. Now, we have three parameters</p>
+<p><span class="math inline">\(p : AR\)</span></p>
+<p><span class="math inline">\(d : I\)</span></p>
+<p><span class="math inline">\(q : MA\)</span></p>
+</div>
+<div id="seasonality" class="section level3">
+<h3>3. Seasonality :</h3>
+<p>Seasonality can easily be incorporated in the ARIMA model directly. More on this has been discussed in the applications part below.</p>
+</div>
+<div id="plot-acfpacf-charts-and-fin-optimar-parameters" class="section level2">
+<h2>3. Plot ACF/PACF charts and fin optimar parameters</h2>
+</div>
+<div id="build-the-arima-model" class="section level2">
+<h2>4. Build the ARIMA model</h2>
+</div>
+<div id="make-predictions" class="section level2">
+<h2>5. Make Predictions</h2>
+</div>
+</div>
 
 
 
